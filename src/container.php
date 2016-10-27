@@ -1,5 +1,6 @@
 <?php
 
+use Cart\Validation\Contracts\ValidatorInterface;
 use function DI\get;
 use Slim\Views\Twig;
 use Cart\Basket\Basket;
@@ -7,11 +8,15 @@ use Cart\Models\Product;
 use Slim\Views\TwigExtension;
 use Cart\Support\Storage\SessionStorage;
 use Interop\Container\ContainerInterface;
+use Cart\Validation\Validator;
 use Cart\Support\Storage\Contracts\StorageInterface;
 
 
 return [
     'router' => get(Slim\Router::class),
+    ValidatorInterface::class => function( ContainerInterface $c){
+        return new Validator();
+    },
     StorageInterface::class => function (ContainerInterface $c) {
         return new SessionStorage('cart');
     },
